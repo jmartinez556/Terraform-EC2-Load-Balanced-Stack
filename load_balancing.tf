@@ -1,8 +1,9 @@
+# BALANCES ACROSS EC2 / DIRECTS TRAFFIC TO TARGET GROUPS
 resource "aws_lb" "alb" {
-  name               = "Justins-load-balancer_new"
+  name               = "Justins-load-balancer-new"
   internal           = "false"
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.allow_all_traffic.id]
+  security_groups    = [aws_security_group.load_balancer.id]
   subnets            = [aws_subnet.public-1.id, aws_subnet.public-2.id]
 
 

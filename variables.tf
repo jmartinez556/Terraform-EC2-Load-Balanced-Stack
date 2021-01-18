@@ -22,13 +22,23 @@ variable "availability_zone1" {
 variable "public_subnet_1_cidr_block" {
   type = string
 }
-variable "availability_zone2" {
-  type = string
-}
 variable "public_subnet_2_cidr_block" {
   type = string
 }
+variable "public_subnet_3_cidr_block" {
+  type = string
+}
+variable "availability_zone2" {
+  type = string
+}
+
 variable "private_subnet_1_cidr_block" {
+  type = string
+}
+variable "private_subnet_2_cidr_block" {
+  type = string
+}
+variable "private_subnet_3_cidr_block" {
   type = string
 }
 variable "security_group1_name" {
