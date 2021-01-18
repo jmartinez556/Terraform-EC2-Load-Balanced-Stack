@@ -1,5 +1,5 @@
 resource "aws_lb" "alb" {
-  name               = "Justins-load-balancer"
+  name               = "Justins-load-balancer_new"
   internal           = "false"
   load_balancer_type = "application"
   security_groups    = [aws_security_group.allow_all_traffic.id]
