@@ -88,6 +88,18 @@ variable "load_balancer_name" {
 variable "domain" {
   type = string
 }
+variable "hosted_zone_id" {
+  type = string
+}
+variable "domain_name" {
+  type = string
+}
+variable "egress_cidr_blocks1" {
+  type = string
+}
+
+
+
 
 
 

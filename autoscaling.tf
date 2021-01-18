@@ -1,8 +1,8 @@
 resource "aws_launch_template" "launch_template" {
   name                   = var.launch_template_name
   image_id               = var.ami
-  instance_type          = "t2.micro"
-  key_name               = "Justin-us-east-1"
+  instance_type          = var.instance_type
+  key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.allow_all_traffic.id]
 
   tag_specifications {
