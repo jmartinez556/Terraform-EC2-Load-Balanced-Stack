@@ -1,26 +1,57 @@
 
-resource "aws_security_group" "allow_all_traffic" {
+resource "aws_security_group" "load_balancer" {
   name        = var.security_group1_name
   description = "Allow internet traffic"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description = var.ingress_rule_desc1
-    from_port   = var.ingress_to_port1
-    to_port     = var.ingress_from_port1
-    protocol    = var.ingress_protocol1
-    cidr_blocks = var.ingress_cidr_blocks1
+    description = "inbound_internet"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "HTTP"
+    cidr_blocks = ("0.0.0.0/0")
   }
-
+  ingress {
+    description = "secure_inbound_internet"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "HTTPS"
+    cidr_blocks = ("0.0.0.0/0")
+  }
   egress {
-    description = var.egress_rule_desc1
-    from_port   = var.egress_from_port1
-    to_port     = var.egress_to_port1
-    protocol    = var.egress_protocol1
+    description = "outbound"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
-    Name = "allow_all_traffic"
+    Name = "load_balancer_traffic_control"
+  }
+}
+resource "aws_security_group" "ec2" {
+  name        = var.security_group1_name
+  description = "Allow internet traffic"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description     = "security_group_for_ec2"
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    security_groups = [aws_security_group.load_balancer.id]
+  }
+
+  egress {
+    description = "outbound_traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "ec2"
   }
 }
