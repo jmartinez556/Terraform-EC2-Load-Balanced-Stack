@@ -1,14 +1,14 @@
 # BALANCES ACROSS EC2 / DIRECTS TRAFFIC TO TARGET GROUPS
 resource "aws_lb" "alb" {
-  name               = "Justins-load-balancer-new"
+  name               = "${var.region}-${var.app_name}-alb"
   internal           = "false"
   load_balancer_type = "application"
   security_groups    = [aws_security_group.load_balancer.id]
-  subnets            = [aws_subnet.public-1.id, aws_subnet.public-2.id]
+  subnets            = [aws_subnet.public-1.id, aws_subnet.public-2.id, aws_subnet.public-3.id]
 
 
   tags = {
-    Deployment_Method = "Terraform"
+    name = "${var.region}-${var.app_name}-load-balancer"
   }
 }
 
@@ -19,7 +19,7 @@ resource "aws_lb_listener" "port-80-traffic" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.tg.arn
   }
 }
 
@@ -29,7 +29,7 @@ resource "aws_lb_listener_rule" "port-80-rule" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group.arn
+    target_group_arn = aws_lb_target_group.tg.arn
   }
 
   condition {

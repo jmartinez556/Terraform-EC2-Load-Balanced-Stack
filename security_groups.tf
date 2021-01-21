@@ -1,6 +1,6 @@
-
+# SECURITY GROUP FOR LOAD BALANCER
 resource "aws_security_group" "load_balancer" {
-  name        = var.security_group1_name
+  name        = "${var.region}-${var.app_name}-sg1"
   description = "Allow internet traffic"
   vpc_id      = aws_vpc.main.id
 
@@ -27,11 +27,12 @@ resource "aws_security_group" "load_balancer" {
   }
 
   tags = {
-    Name = "load_balancer_traffic_control"
+    Name = "${var.region}-${var.app_name}-sg1"
   }
 }
+# SECURITY GROUP FOR EC2
 resource "aws_security_group" "ec2" {
-  name        = var.security_group1_name
+  name        = "${var.region}-${var.app_name}-sg2"
   description = "Allow internet traffic"
   vpc_id      = aws_vpc.main.id
 
@@ -52,6 +53,6 @@ resource "aws_security_group" "ec2" {
   }
 
   tags = {
-    Name = "ec2"
+    Name = "${var.region}-${var.app_name}-sg2"
   }
 }

@@ -3,45 +3,46 @@ resource "aws_vpc" "main" {
   instance_tenancy = "default"
 
   tags = {
-    Name = "Justins-vpc"
+    Name = "${var.region}-${var.app_name}-vpc-main"
   }
 }
+
 
 # INTERNET GATEWAY
 resource "aws_internet_gateway" "ig" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name = "Justins-ig"
+    Name = "${var.region}-${var.app_name}-internet-gateway"
   }
 }
 
 # PUBLIC SUBNETS
 resource "aws_subnet" "public-1" {
-  availability_zone = var.availability_zone1
+  availability_zone = "${var.region}a"
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_subnet_1_cidr_block
 
   tags = {
-    Name = "Justins-public_subnet-1"
+    Name = "${var.region}-${var.app_name}-public-subnets"
   }
 }
 resource "aws_subnet" "public-2" {
-  availability_zone = var.availability_zone2
+  availability_zone = "${var.region}b"
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_subnet_2_cidr_block
 
   tags = {
-    Name = "Justins-public_subnet-2"
+    Name = "${var.region}-${var.app_name}-public-subnets"
   }
 }
 resource "aws_subnet" "public-3" {
-  availability_zone = var.availability_zone1
+  availability_zone = "${var.region}c"
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.public_subnet_3_cidr_block
 
   tags = {
-    Name = "Justins-public_subnet-3"
+    Name = "${var.region}-${var.app_name}-public-subnets"
   }
 }
 
@@ -55,7 +56,7 @@ resource "aws_route_table" "public-rt" {
   }
 
   tags = {
-    Name = "Justins-public-rt"
+    Name = "${var.region}-${var.app_name}-public-route-table"
   }
 }
 
@@ -75,30 +76,30 @@ resource "aws_route_table_association" "rta-public-3" {
 
 # PRIVATE SUBNETS
 resource "aws_subnet" "private-1" {
-  availability_zone = var.availability_zone1
+  availability_zone = "${var.region}a"
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet_1_cidr_block
 
   tags = {
-    Name = "Justins-private_subnet-1"
+    Name = "${var.region}-${var.app_name}-private-subnets"
   }
 }
 resource "aws_subnet" "private-2" {
-  availability_zone = var.availability_zone1
+  availability_zone = "${var.region}b"
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_subnet_2_cidr_block
 
   tags = {
-    Name = "Justins-private_subnet-2"
+    Name = "${var.region}-${var.app_name}-private-subnets"
   }
 }
 resource "aws_subnet" "private-3" {
-  availability_zone = var.availability_zone1
+  availability_zone = "${var.region}c"
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet_3_cidr_block
+  cidr_block        = var.private_subnet_3_cidr_block
 
   tags = {
-    Name = "Justins-private_subnet-3"
+    Name = "${var.region}-${var.app_name}-private-subnets"
   }
 }
 
@@ -112,7 +113,7 @@ resource "aws_route_table" "private-rt" {
   }
 
   tags = {
-    Name = "Justins-private-rt"
+    Name = "${var.region}-${var.app_name}-private-route-table"
   }
 }
 
@@ -136,9 +137,10 @@ resource "aws_nat_gateway" "nat-gw" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public-1.id
   tags = {
-    Name = "Justins-nat-gateway"
+    Name = "${var.region}-${var.app_name}-nat-gateway"
   }
 }
+
 #
 resource "aws_eip" "nat" {
   vpc = true

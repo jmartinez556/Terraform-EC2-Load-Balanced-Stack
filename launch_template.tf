@@ -1,6 +1,6 @@
 # LAUNCH TEMPLATE
 resource "aws_launch_template" "launch_template" {
-  name                   = var.launch_template_name
+  name                   = "${var.region}-${var.app_name}-launch-template"
   image_id               = var.ami
   instance_type          = var.instance_type
   key_name               = var.key_name
@@ -11,8 +11,7 @@ resource "aws_launch_template" "launch_template" {
     resource_type = "instance"
 
     tags = {
-      Name              = "Justins-launch-template"
-      Deployment_Method = "Terraform"
+      Name = "${var.region}-${var.app_name}-launch-template"
     }
   }
 }
